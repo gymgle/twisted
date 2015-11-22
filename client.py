@@ -1,5 +1,5 @@
 from twisted.internet.protocol import DatagramProtocol
-from twisted.internet import reactor
+from twisted.internet import reactor, threads
 
 
 class SenzClientProtocol(DatagramProtocol):
@@ -16,7 +16,8 @@ class SenzClientProtocol(DatagramProtocol):
     def datagramReceived(self, datagram, host):
         print 'Datagram received: ', repr(datagram)
         handler = Handler(self.transport)
-        reactor.callFromThread(handler.handleMessage, datagram)
+        d = threads.deferToThread(handler.handleMessage, datagram)
+        d.addCallback(handler.postHandle)
 
 
 class Handler():
@@ -27,8 +28,8 @@ class Handler():
         print 'Handler Message: ', repr(datagram)
         #self.transport.write('senz')
 
-    def sendDatagram(self):
-        self.transport.write('senz')
+    def postHandle(self, arg):
+        print 'post handling'
 
 
 def main():

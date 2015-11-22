@@ -35,11 +35,12 @@ class Handler():
 
     def handleMessage(self):
         while True:
-            self.transport.write('balll', (self.host, self.port))
-            time.sleep(3)
+            msg = "GET #bal #nic #nm #acc 22343 @sdbl ^agent1 <sginature>"
+            self.transport.write(msg, (self.host, self.port))
+            time.sleep(10)
 
     def postHandle(self, arg):
-        print 'post handling'
+        print 'server post handling'
 
 
 def main():
