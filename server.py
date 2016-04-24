@@ -35,7 +35,7 @@ class Handler():
 
     def handleMessage(self):
         while True:
-            msg = "GET #bal #nic #nm #acc 22343 @sdbl ^agent1 <sginature>"
+            msg = "PING #sdblbal @mysensors ^agent1 <sginature>"
             self.transport.write(msg, (self.host, self.port))
             time.sleep(10)
 
